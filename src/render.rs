@@ -3,9 +3,9 @@ use crate::sim::{Element, Material, World};
 pub(crate) fn start_color(material: &Material) -> u8 {
     match material {
         Material::Sand => 220,
-        Material::Water => todo!(),
-        Material::Wall => todo!(),
-        Material::Clone => todo!(),
+        Material::Water => 21,
+        Material::Wall => 242,
+        Material::Clone => 46,
     }
 }
 
