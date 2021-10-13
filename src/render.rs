@@ -1,3 +1,5 @@
+use std::collections;
+
 use crate::sim::{Element, Material, World};
 
 pub(crate) fn start_color(material: &Material) -> u8 {
@@ -13,6 +15,7 @@ pub fn render(world: &World) {
     for y in 0..world.world.len() {
         for x in 0..world.world[y].len() {
             if let Some(elem) = &world.world[y][x] {
+                // println!("{}, {}, {}", x, y, elem.color);
                 draw(x, y, elem.color);
             } else {
                 erase(x, y);
@@ -23,7 +26,7 @@ pub fn render(world: &World) {
 
 pub fn draw(x: usize, y: usize, color: u8) {
     // Put the cursor where we want to draw
-    print!("\x1b[{line};{column}H", line = y / 2, column = x);
+    print!("\x1b[{line};{column}H", line = y / 2 + 1, column = x + 1);
 
     /*
     // 0 is our erase code
@@ -35,12 +38,12 @@ pub fn draw(x: usize, y: usize, color: u8) {
             // Reset the background color, and replace
             print!("\x1b[49m▄");
         }
-    } else*/ if (y + 1) & 1 == 0 { //Checks if y is even
-        // Set the background color if y is even, since ▀ covers the top half
-        // Note the space at the end, this is so that when we reset it won't reset our styling
+    } else*/
+    if (y & 1) == 1 { //Checks if y is odd
+        // Set the background color if y is odd, since ▀ covers the top half
         print!("\x1b[48;5;{}m▀", color);
     } else {
-        // Foreground color instead, and ▀ because it will need to be used
+        // Foreground color instead, and ▀ to make the top portion
         print!("\x1b[38;5;{}m▀", color);
     }
 
